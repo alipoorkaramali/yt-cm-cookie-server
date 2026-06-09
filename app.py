@@ -9,8 +9,15 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def get_valid_cookie():
+    # اگر فایل کوکی وجود نداشت، یک نمونه جدید ایجاد کن
+    if not os.path.exists(COOKIE_FILE_PATH):
+        logger.info("Cookie file not found. Creating a new one...")
+        # ساخت یک فایل خالی (یا مستقیم به yt_cm بدیم)
+        open(COOKIE_FILE_PATH, 'a').close()
+    
     cookie_manager = YouTubeCookieManager(COOKIE_FILE_PATH)
     validation_result = cookie_manager.validate()
+    
     if not validation_result.get("valid", False):
         logger.info("Cookie invalid or missing. Attempting to renew...")
         renew_result = cookie_manager.renew_session()
@@ -18,6 +25,7 @@ def get_valid_cookie():
             logger.error("Failed to renew the cookie.")
             return None
         logger.info(f"Cookie renewed successfully. New expiry: {renew_result.get('cookie_expiry')}")
+    
     return cookie_manager.export_netscape()
 
 @app.route('/cookies', methods=['GET'])
