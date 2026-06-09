@@ -1,0 +1,8 @@
+app = "yt-cm-cookie-server"
+primary_region = "fra"
+
+[build]
+
+[http_service]
+  internal_port = 10000
+  force_https = true
