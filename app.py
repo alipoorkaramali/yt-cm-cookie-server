@@ -13,7 +13,7 @@ COOKIE_FILE = "cookies.txt"
 
 async def fetch_cookie():
     if not EMAIL or not PASSWORD:
-        raise ValueError("EMAIL and PASSWORD env vars required")
+        raise ValueError("EMAIL and PASSWORD environment variables are required")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True, args=['--no-sandbox'])
         context = await browser.new_context()
@@ -51,6 +51,10 @@ def run():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({"status": "ok"})
+
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port)
+    # پورت ثابت 8080 - بدون نیاز به متغیر PORT
+    app.run(host='0.0.0.0', port=8080)
