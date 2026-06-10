@@ -12,8 +12,9 @@ def get_valid_cookie():
     # اگر فایل کوکی وجود نداشت، یک نمونه جدید ایجاد کن
     if not os.path.exists(COOKIE_FILE_PATH):
         logger.info("Cookie file not found. Creating a new one...")
-        # ساخت یک فایل خالی (یا مستقیم به yt_cm بدیم)
-        open(COOKIE_FILE_PATH, 'a').close()
+        # Create a valid Netscape-format cookie file with the required header
+        with open(COOKIE_FILE_PATH, 'w') as f:
+            f.write("# Netscape HTTP Cookie File\n")
     
     cookie_manager = YouTubeCookieManager(COOKIE_FILE_PATH)
     validation_result = cookie_manager.validate()
@@ -35,6 +36,10 @@ def get_cookies():
         return jsonify({"error": "Failed to get or renew cookie"}), 500
     logger.info("Cookie served successfully.")
     return jsonify({"cookie": cookie_content})
+
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({"status": "ok"}), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
