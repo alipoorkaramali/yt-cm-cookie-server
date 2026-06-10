@@ -4,6 +4,7 @@
   },
   "deploy": {
     "startCommand": "gunicorn app:app --bind 0.0.0.0:$PORT",
-    "healthcheckPath": "/health"
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 300
   }
 }
