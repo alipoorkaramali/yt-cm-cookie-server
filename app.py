@@ -2,7 +2,7 @@ import os
 import asyncio
 import logging
 from flask import Flask, jsonify, request
-from rebrowser_playwright.async_api import async_playwright
+from playwright.async_api import async_playwright
 import nest_asyncio
 
 nest_asyncio.apply()
