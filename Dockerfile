@@ -18,6 +18,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN playwright install chromium
 
 COPY . .
-RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["./entrypoint.sh"]
+# استفاده از پورت ثابت 8080 (بدون متغیر)
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080"]
