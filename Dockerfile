@@ -19,4 +19,5 @@ RUN playwright install chromium
 
 COPY . .
 
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080"]
+# اجرای gunicorn روی پورت 8080 - بدون متغیر
+CMD gunicorn app:app --bind 0.0.0.0:8080
